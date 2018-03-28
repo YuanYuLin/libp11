@@ -5,7 +5,7 @@ pkg_path = ""
 output_dir = ""
 arch = ""
 src_usr_lib_dir = ""
-dst_usr_lib_dir = ""
+dst_lib_dir = ""
 src_include_dir = ""
 dst_include_dir = ""
 
@@ -14,7 +14,7 @@ def set_global(args):
     global output_dir
     global arch
     global src_usr_lib_dir
-    global dst_usr_lib_dir
+    global dst_lib_dir
     global src_include_dir
     global dst_include_dir
     pkg_path = args["pkg_path"]
@@ -28,7 +28,7 @@ def set_global(args):
         src_usr_lib_dir = iopc.getBaseRootFile("usr/lib/x86_64-linux-gnu")
     else:
         sys.exit(1)
-    dst_usr_lib_dir = ops.path_join(output_dir, "usr/lib")
+    dst_lib_dir = ops.path_join(output_dir, "lib")
 
     src_include_dir = iopc.getBaseRootFile("usr/include/p11-kit-1/p11-kit")
     dst_include_dir = ops.path_join("include",args["pkg_name"])
@@ -41,11 +41,11 @@ def MAIN_ENV(args):
 def MAIN_EXTRACT(args):
     set_global(args)
 
-    ops.mkdir(dst_usr_lib_dir)
-    ops.copyto(ops.path_join(src_usr_lib_dir, "libp11-kit.so.0.2.0"), dst_usr_lib_dir)
-    ops.ln(dst_usr_lib_dir, "libp11-kit.so.0.2.0", "libp11-kit.so.0.2")
-    ops.ln(dst_usr_lib_dir, "libp11-kit.so.0.2.0", "libp11-kit.so.0")
-    ops.ln(dst_usr_lib_dir, "libp11-kit.so.0.2.0", "libp11-kit.so")
+    ops.mkdir(dst_lib_dir)
+    ops.copyto(ops.path_join(src_usr_lib_dir, "libp11-kit.so.0.2.0"), dst_lib_dir)
+    ops.ln(dst_lib_dir, "libp11-kit.so.0.2.0", "libp11-kit.so.0.2")
+    ops.ln(dst_lib_dir, "libp11-kit.so.0.2.0", "libp11-kit.so.0")
+    ops.ln(dst_lib_dir, "libp11-kit.so.0.2.0", "libp11-kit.so")
     return True
 
 def MAIN_PATCH(args, patch_group_name):
@@ -78,7 +78,7 @@ def MAIN_INSTALL(args):
     iopc.installBin(args["pkg_name"], ops.path_join(src_include_dir, "remote.h"), dst_include_dir)
     iopc.installBin(args["pkg_name"], ops.path_join(src_include_dir, "uri.h"), dst_include_dir)
 
-    iopc.installBin(args["pkg_name"], ops.path_join(dst_usr_lib_dir, "."), "usr/lib") 
+    iopc.installBin(args["pkg_name"], ops.path_join(dst_lib_dir, "."), "lib") 
     return False
 
 def MAIN_CLEAN_BUILD(args):
