@@ -42,10 +42,12 @@ def MAIN_EXTRACT(args):
     set_global(args)
 
     ops.mkdir(dst_lib_dir)
-    ops.copyto(ops.path_join(src_usr_lib_dir, "libp11-kit.so.0.2.0"), dst_lib_dir)
-    ops.ln(dst_lib_dir, "libp11-kit.so.0.2.0", "libp11-kit.so.0.2")
-    ops.ln(dst_lib_dir, "libp11-kit.so.0.2.0", "libp11-kit.so.0")
-    ops.ln(dst_lib_dir, "libp11-kit.so.0.2.0", "libp11-kit.so")
+
+    lib_so = "libp11-kit.so.0.0.0"
+    ops.copyto(ops.path_join(src_usr_lib_dir, lib_so), dst_lib_dir)
+    ops.ln(dst_lib_dir, lib_so, "libp11-kit.so.0.0")
+    ops.ln(dst_lib_dir, lib_so, "libp11-kit.so.0")
+    ops.ln(dst_lib_dir, lib_so, "libp11-kit.so")
     return True
 
 def MAIN_PATCH(args, patch_group_name):
@@ -75,7 +77,7 @@ def MAIN_INSTALL(args):
     iopc.installBin(args["pkg_name"], ops.path_join(src_include_dir, "pin.h"), dst_include_dir)
     iopc.installBin(args["pkg_name"], ops.path_join(src_include_dir, "pkcs11.h"), dst_include_dir)
     iopc.installBin(args["pkg_name"], ops.path_join(src_include_dir, "pkcs11x.h"), dst_include_dir)
-    iopc.installBin(args["pkg_name"], ops.path_join(src_include_dir, "remote.h"), dst_include_dir)
+    #iopc.installBin(args["pkg_name"], ops.path_join(src_include_dir, "remote.h"), dst_include_dir)
     iopc.installBin(args["pkg_name"], ops.path_join(src_include_dir, "uri.h"), dst_include_dir)
 
     iopc.installBin(args["pkg_name"], ops.path_join(dst_lib_dir, "."), "lib") 
